@@ -183,7 +183,7 @@ int main(void)
     }
 
     float r = 0.8f;
-    float speed = 0.05f;
+    float speed = 0.01f;
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
     {
@@ -195,11 +195,11 @@ int main(void)
         r += speed;
         if (r > 1.0f)
         {
-            speed = -0.05f;
+            speed = -0.01f;
         }
         else if (r < 0)
         {
-            speed = 0.05f;
+            speed = 0.01f;
         }
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
