@@ -2,7 +2,7 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
-      <FullPath>F:\polyu\COMP4422\self\OpenGL\Debug\OpenGL.exe</FullPath>
+      <FullPath>F:\GameEngine\OpenGL\Debug\OpenGL.exe</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles />
