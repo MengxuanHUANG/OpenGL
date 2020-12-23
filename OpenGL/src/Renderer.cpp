@@ -2,6 +2,10 @@
 
 #include <iostream>
 
+#include "IndexBuffer.h"
+#include "VertexArray.h"
+#include "Shader.h"
+
 void GLClearError()
 {
     while (glGetError() != GL_NO_ERROR);
@@ -14,4 +18,17 @@ bool GLLogCall(const char* function, const char* file, int line)
         return false;
     }
     return true;
+}
+
+void Renderer::Clear() const
+{
+    GLCall(glClear(GL_COLOR_BUFFER_BIT));
+}
+
+void Renderer::Draw(const VertexArray& va, const IndexBuffer& ib, const Shader& shader) const
+{
+    shader.Bind();
+    va.Bind();
+    ib.Bind();
+    GLCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr));
 }
