@@ -6,6 +6,8 @@
 #include <fstream>
 #include <sstream>
 
+#include "glm/gtc/matrix_transform.hpp"
+
 Shader::Shader(const std::string& filePath)
 	:m_FilePath(filePath)
 {
@@ -120,6 +122,11 @@ void Shader::SetUniform4f(const std::string& name, float v0, float v1, float v2,
 void Shader::SetUniform1f(const std::string& name, float value)
 {
 	GLCall(glUniform1f(GetUniformLocation(name), value));
+}
+
+void Shader::SetUniformMat4f(const std::string& name, const glm::mat4& matrix)
+{
+	GLCall(glUniformMatrix4fv(GetUniformLocation(name), 1, GL_FALSE, &matrix[0][0]));
 }
 
 int Shader::GetUniformLocation(const std::string& name)
