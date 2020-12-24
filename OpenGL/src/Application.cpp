@@ -31,7 +31,7 @@ int main(void)
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	/* Create a windowed mode window and its OpenGL context */
-	window = glfwCreateWindow(1280, 960, "OpenGL", NULL, NULL);
+	window = glfwCreateWindow(960, 540, "OpenGL", NULL, NULL);
 	if (!window)
 	{
 		glfwTerminate();
@@ -59,10 +59,10 @@ int main(void)
 	std::cout << glGetString(GL_VERSION) << std::endl;
 
 	float square[] = {
-		100.0f, 100.0f, 0.0f, 0.0f, 1.0f, //0
-		200.0f, 100.0f, 0.0f, 1.0f, 1.0f, //1
-		200.0f, 200.0f, 0.0f, 1.0f, 0.0f, //2
-		100.0f, 200.0f, 0.0f, 0.0f, 0.0f //3
+		-50.0f, -50.0f, 0.0f, 0.0f, 1.0f, //0
+		 50.0f, -50.0f, 0.0f, 1.0f, 1.0f, //1
+		 50.0f,  50.0f, 0.0f, 1.0f, 0.0f, //2
+		-50.0f,  50.0f, 0.0f, 0.0f, 0.0f //3
 	};
 	unsigned int squareIndices[] = { 1, 0, 3, 3, 2, 1 };
 
@@ -97,7 +97,7 @@ int main(void)
 		IndexBuffer ib(squareIndices, 6);
 
 		//model, view, projection(MVP) matrix
-		glm::mat4 proj = glm::ortho(0.0f, 1280.0f, 0.0f, 960.0f, -1.0f, 1.0f);
+		glm::mat4 proj = glm::ortho(0.0f, 960.0f, 0.0f, 540.0f, -1.0f, 1.0f);
 		glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, 0));
 		//glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(200, 200, 0));
 
@@ -124,7 +124,8 @@ int main(void)
 
 		float r = 0.8f;
 		float speed = 0.01f;
-		glm::vec3 translation(0, 0, 0);
+		glm::vec3 translation_A(200, 200, 0);
+		glm::vec3 translation_B(400, 200, 0);
 
 		bool show_demo_window = true;
 
@@ -138,17 +139,30 @@ int main(void)
 			/* Render here */
 			renderer.Clear();
 
-			glm::mat4 model = glm::translate(glm::mat4(1.0f), translation);
-
-			//projection * view * model
-			glm::mat4 mvp = proj * view * model;
-
+			//bind shader once
 			shader.Bind();
-			shader.SetUniformMat4f("u_MVP", mvp);
 
-			renderer.Draw(va, ib, shader);
+			//draw first image
+			{
+				glm::mat4 model = glm::translate(glm::mat4(1.0f), translation_A);
+				//projection * view * model
+				glm::mat4 mvp = proj * view * model;
 
-			ImGui::ShowDemoWindow(&show_demo_window);
+				shader.SetUniformMat4f("u_MVP", mvp);
+				renderer.Draw(va, ib, shader);
+			}
+
+			//draw second image
+			{
+				glm::mat4 model = glm::translate(glm::mat4(1.0f), translation_B);
+				//projection * view * model
+				glm::mat4 mvp = proj * view * model;
+
+				shader.SetUniformMat4f("u_MVP", mvp);
+				renderer.Draw(va, ib, shader);
+			}
+			
+			//ImGui::ShowDemoWindow(&show_demo_window);
 
 			// 2. Show a simple window that we create ourselves. We use a Begin/End pair to created a named window.
 			{
@@ -157,7 +171,8 @@ int main(void)
 				ImGui::SetWindowSize({ 800.0f, 200.0f });
 				ImGui::SetWindowFontScale(2.0f);
 
-				ImGui::SliderFloat3("Translation", &translation.x, 0.0f, 1280.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
+				ImGui::SliderFloat3("Translation_A", &translation_A.x, 0.0f, 500.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
+				ImGui::SliderFloat3("Translation_B", &translation_B.x, 0.0f, 500.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
 
 				ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 				ImGui::End();
