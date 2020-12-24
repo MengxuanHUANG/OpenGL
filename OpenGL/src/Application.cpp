@@ -24,7 +24,7 @@ int main(void)
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	/* Create a windowed mode window and its OpenGL context */
-	window = glfwCreateWindow(2048, 1280, "OpenGL", NULL, NULL);
+	window = glfwCreateWindow(1280, 960, "OpenGL", NULL, NULL);
 	if (!window)
 	{
 		glfwTerminate();
@@ -50,9 +50,9 @@ int main(void)
 	unsigned int squareIndices[] = { 1, 0, 3, 3, 2, 1 };
 
 	float triangle[] = {
-		0.5f, 0.5f, 0.0f, 0.0f, 1.0f, //0
-		1.0f, 1.5f, 0.0f, 1.0f, 1.0f, //1
-		1.5f, 0.5f, 0.0f, 1.0f, 0.0f //2
+		-0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f,//0
+		 0.0f,  0.5f, 0.0f, 0.0f, 1.0f, 0.0f,//1
+		 0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f //2
 	};
 	unsigned int indices[] = { 0, 1, 2 };
 	//set up vao (2 ways of using vao)
@@ -61,6 +61,9 @@ int main(void)
 	//unsigned int vao;
 	//GLCall(glGenVertexArrays(1, &vao));
 	//GLCall(glBindVertexArray(vao));
+
+	GLCall(glEnable(GL_BLEND));
+	GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
 
 	{
 		//set vertex info(position, normal, texture, etc.)
@@ -79,9 +82,8 @@ int main(void)
 		//shaders
 		Shader shader("res/shaders/Basic.shader");
 		shader.Bind();
-		shader.SetUniform4f("u_Color", 0.8f, 0.2f, 0.7f, 1.0f);
 
-		Texture texture("res/texture/texture_test.png");
+		Texture texture("res/texture/ChernoLogo.png");
 		texture.Bind();
 		shader.SetUniform1i("u_Texture", 0);
 
@@ -106,7 +108,6 @@ int main(void)
 
 			renderer.Draw(va, ib, shader);
 
-			//renderer.Draw(va, ib2, shader);
 			r += speed;
 			if (r > 0.99f || r < 0)
 			{
