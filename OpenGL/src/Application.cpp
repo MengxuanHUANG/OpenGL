@@ -5,11 +5,6 @@
 #include <string>
 
 #include "Renderer.h"
-#include "VertexBuffer.h"
-#include "IndexBuffer.h"
-#include "VertexArray.h"
-#include "Shader.h"
-#include "Texture.h"
 
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
@@ -19,6 +14,7 @@
 #include "imgui/imgui_impl_opengl3.h"
 
 #include "tests/TestClearColor.h"
+#include "tests/TestTexture2D.h"
 
 int main(void)
 {
@@ -33,7 +29,7 @@ int main(void)
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	/* Create a windowed mode window and its OpenGL context */
-	window = glfwCreateWindow(960, 540, "OpenGL", NULL, NULL);
+	window = glfwCreateWindow(1280, 960, "OpenGL", NULL, NULL);
 	if (!window)
 	{
 		glfwTerminate();
@@ -68,6 +64,7 @@ int main(void)
 
 		test::TestMenu* testMenu = new test::TestMenu();
 		testMenu->ResisterTest<test::TestClearColor>("Clear Color");
+		testMenu->ResisterTest<test::TestTexture2D>("2D Texture");
 
 		/* Loop until the user closes the window */
 		while (!glfwWindowShouldClose(window))

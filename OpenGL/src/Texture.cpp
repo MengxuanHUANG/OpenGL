@@ -9,6 +9,7 @@ Texture::Texture(const std::string& filePath)
 {
 	//flip the image up and down, since (0, 0) is at *left bottom* in the OpenGL texture coordinate.
 	stbi_set_flip_vertically_on_load(1);
+	
 	/*
 	*	Parameters of "stbi_load"
 	* 
