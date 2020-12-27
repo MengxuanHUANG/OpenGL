@@ -22,14 +22,15 @@ namespace test {
 		std::shared_ptr<VertexArray> m_VAO;
 		std::shared_ptr<IndexBuffer> m_IB;
 		std::shared_ptr<Shader> m_Shader;
-		std::shared_ptr<Texture> m_Texture;
+		std::shared_ptr<Texture> m_Texture_1;
+		std::shared_ptr<Texture> m_Texture_2;
 
 		glm::mat4 m_Proj, m_View;
-		glm::vec3 m_Translation_A, m_Translation_B;
+		glm::vec3 m_Translation_A;
+		glm::vec2 m_Position;
 	public:
 		TestTexture2D();
 		~TestTexture2D();
-
 
 		void OnUpdate(float deltaTime) override;
 		void OnRender() override;

@@ -129,7 +129,12 @@ void Shader::SetUniformMat4f(const std::string& name, const glm::mat4& matrix)
 	GLCall(glUniformMatrix4fv(GetUniformLocation(name), 1, GL_FALSE, &matrix[0][0]));
 }
 
-int Shader::GetUniformLocation(const std::string& name)
+void Shader::SetUniformArrayi(const std::string& name, const int* values, unsigned int count)
+{
+	GLCall(glUniform1iv(GetUniformLocation(name), count, values));
+}
+
+int Shader::GetUniformLocation(const std::string& name) const
 {
 	if (m_LocationCache.find(name) != m_LocationCache.end())
 		return m_LocationCache[name];
@@ -138,6 +143,10 @@ int Shader::GetUniformLocation(const std::string& name)
 	if (location == -1)
 	{
 		std::cout << "Wraning: uniform " << name << " doesn't exit" << std::endl;
+	}
+	else
+	{
+		m_LocationCache[name] = location;
 	}
 	return location;
 }

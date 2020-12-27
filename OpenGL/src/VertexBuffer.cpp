@@ -14,6 +14,12 @@ VertexBuffer::~VertexBuffer()
     GLCall(glDeleteBuffers(1, &m_RendererID));
 }
 
+void VertexBuffer::SetData(int offset, unsigned int size, const void* data)
+{
+    Bind();
+    GLCall(glBufferSubData(GL_ARRAY_BUFFER, offset, size, data));
+}
+
 void VertexBuffer::Bind() const
 {
     GLCall(glBindBuffer(GL_ARRAY_BUFFER, m_RendererID));
